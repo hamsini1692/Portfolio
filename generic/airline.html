@@ -31,14 +31,11 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
-							<h1 class="major">WRITE ABOUT BIRD CLASSIFIER</h1>
-							<h3 class="tech-stack">Technologies Used: R | Statistics | Regression | Causal Inference</h3>
+							<h1 class="major">Real-Time Prediction of Flight Departure Delays</h1>
+							<h3 class="tech-stack">Technologies Used: Python | Apache Spark | Machine Learning | Deep Learning |Databricks </h3>
 							<h2>Introduction</h2>
-			<p>The movie industry is a multi-billion dollar business, and the budget of a film has become a crucial factor
-in determining its success, particularly its Revenue.One of the drawbacks of existing research in predicting movie revenue is the difficulty in accurately capturing
-the impact of other complex factors that influence a movie’s success apart from budget. </p>
-<h2>Objective</h2>
-<p>The goal of the project is to explore the factors affecting movie revenue, beyond just the budget, to help filmmakers optimize their marketing and production strategies. Utilizing a comprehensive dataset and regression models, the study aims to provide insights and recommendations by analyzing various influencing factors. This approach seeks to overcome limitations in existing research and offer more accurate predictions for movie success, contributing to strategic planning in the film industry.</p>
+			<p>Flight delays cost airlines an estimated billions of dollars every year, as a result of both direct costs such as additional personnel wages or vouchers for passengers and indirect costs such as the value of passengers' time lost and impact in future sales from decreased customer trust. To address this need, we developed a predictive model using historical flight and weather data to forecast delays exceeding 15 minutes at least 2 hours prior to departure. We developed baseline and advanced models using logistic regression, random forest, gradient-boost decision trees, and neural network classifiers. Because identifying delayed flights is paramount, but both recall and precision are important metrics to consider, we have chosen to evaluate our models using an F2-score (the weighted mean between precision and recall with more weighted placed on recall). Overcoming challenges with time-series data, our iterative model development includes data preprocessing, feature selection, imputation, one-hot encoding, downsampling, sliding window cross-fold validation, and hyperparameter tuning. We employed in depth feature engineering, including leveraging a flight's previous departure delay. Our top-performing model was our multi-layer perceptron model with 2 hidden layers, which achieved an F2-score on our blind test flight data of 52.26%, 81.86% recall, and 21.36% precision. Our model will enable airlines to better predict flight delays, mitigating costs and improving customer retention.</p>
+
 <h2>Data and Methodology</h2>
 <p>We gathered the dataset from <a href="https://www.kaggle.com/datasets/akshaypawar7/millions-of-movies">Kaggle</a>. The dataset comprises metadata of more than 700,000 movies listed in
 the TMDB Dataset. It has 722986 rows and 20 columns representing various factors influencing the movie’s
