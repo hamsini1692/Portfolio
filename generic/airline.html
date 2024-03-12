@@ -37,19 +37,61 @@
 			<p>Flight delays cost airlines an estimated billions of dollars every year, as a result of both direct costs such as additional personnel wages or vouchers for passengers and indirect costs such as the value of passengers' time lost and impact in future sales from decreased customer trust. To address this need, we developed a predictive model using historical flight and weather data to forecast delays exceeding 15 minutes at least 2 hours prior to departure. We developed baseline and advanced models using logistic regression, random forest, gradient-boost decision trees, and neural network classifiers. Because identifying delayed flights is paramount, but both recall and precision are important metrics to consider, we have chosen to evaluate our models using an F2-score (the weighted mean between precision and recall with more weighted placed on recall). Overcoming challenges with time-series data, our iterative model development includes data preprocessing, feature selection, imputation, one-hot encoding, downsampling, sliding window cross-fold validation, and hyperparameter tuning. We employed in depth feature engineering, including leveraging a flight's previous departure delay. Our top-performing model was our multi-layer perceptron model with 2 hidden layers, which achieved an F2-score on our blind test flight data of 52.26%, 81.86% recall, and 21.36% precision. Our model will enable airlines to better predict flight delays, mitigating costs and improving customer retention.</p>
 
 <h2>Data and Methodology</h2>
-<p>We gathered the dataset from <a href="https://www.kaggle.com/datasets/akshaypawar7/millions-of-movies">Kaggle</a>. The dataset comprises metadata of more than 700,000 movies listed in
-the TMDB Dataset. It has 722986 rows and 20 columns representing various factors influencing the movie’s
-success. We performed exploratory studies and model building on a 30% subsample of the data. The remaining 70%,
-totaling 9832 rows, is used for testing the model and evaluating the results in this report.</p>
-<p>To meet the large sample assumptions, we evaluated the assumptions of Independence and Identical Distribution (I.I.D) and
-	Unique Best Linear Predictor (BLP). From the exploratory data analysis, although the budget and revenue distribution was roughly identical, we observed that our dataset is not strictly I.I.D
-	(further discussed in the Limitations section), and it does not have finite variance from the histogram plots, eventually violating the unique BLP assumption. We performed a log transformation of the predictor variables
-	(budget and title length) to overcome this.<div style="text-align:center;"><img src="images/hist.png" alt="Linear Regression" width="500" height="400"></div> Because each movie is not subjected to multiple samplings, the dataset is regarded as cross-sectional. We cleaned data by ignoring the rows with missing values in all dependent and independent variables. From
-the exploratory plots, we observed few outliers for budget, and we are considering the movies with a budget
-greater than $999 and excluding movies with a budget greater than $799 million. After filtering the data,
-we are left with a sample size of 9832 observations.We operationalized the variables Budget(X) and
-Revenue(Y) in terms of amount (in dollars, $). The image below shows a plot of Revenue as a function of budget,depicting a linear relationship between the two variables.</p>
-<div style="text-align:center;"><img src="images/lr.png" alt="Linear Regression" width="500" height="400"></div>
+<p>We utilized a comprehensive dataset derived from multiple authoritative sources. Our primary dataset, obtained from the <a href="https://www.transtats.bts.gov/ErrPage.asp">U.S. Department of Transportation (DOT)</a>, encompasses a subset of passenger flight on-time performance data from 2015 to 2021, featuring 31,746,841 rows and 109 columns. This dataset provides crucial information for predicting flight delays. Complementing this, we incorporated weather data from the
+	<a href="https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ncdc:C00679">National Oceanic and Atmospheric Administration (NOAA)</a>, which covers weather conditions at departure and arrival times for origin and destination airports from 2015 to 2021, with 630,904,436 rows and 177 columns. Additionally, we utilized an airport dataset offering metadata on 18,097 airports and an airport codes table for efficient identification and categorization. The culmination of our data compilation is the OTPW (Ontime Performance of Flights and Weather Dataset Joined), which merges the aforementioned datasets, further subsetted into 3 months, 1 year, 3 years, and 5 years data for development purposes. This integrated dataset, focusing on the OTPW for our analysis and modeling, significantly enhances the accuracy of our predictions and analyses by providing a holistic view of factors influencing flight delays.</p>
+
+<h2>Feature Engineering</h2>
+<p>In our project, we meticulously explored and utilized a diverse array of features to enhance the accuracy of our flight delay predictions. The dataset incorporates a wide range of variables, from basic temporal and airline information, such as quarter, day of the month, day of the week, and unique carrier codes, to more complex metrics like departure and arrival times, distance, and whether a flight was cancelled or diverted. We also integrated detailed weather conditions, including hourly altimeter settings, dew point temperatures, precipitation levels, and wind speeds, to account for the impact of weather on flight delays. Beyond these raw features, our team engaged in extensive feature engineering to derive additional predictors. This included indicators for holidays and weekends, segmentation of the day into departure and arrival blocks, and the incorporation of previous flight delays. We also introduced variables reflecting the number of flights per day at both the origin and destination airports, average carrier delay, and sky conditions, such as cloud coverage. These features were carefully selected based on their potential influence on flight delays, leveraging both our domain expertise and insights gained from exploratory data analysis. Through this comprehensive approach, we aimed to construct a robust model capable of accurately forecasting flight delays, taking into account a wide spectrum of factors from logistical to environmental.All derived features can be found in the table below.
+</p>
+<div style="text-align:center;"><img src="images/derived.png" alt="Linear Regression" width="800" height="400"></div>
+
+<h2>Exploratory Data Analysis</h2>
+<p>Our team conducted extensive exploratory Data analysis (EDA) on datasets covering different durations: 3 months, 1 year, 2 years, and 5 years.
+<h4>Figure 1a. Departure Status (left) and Type of Delayed Flights (5-Year)</h4>
+<div style="text-align:center;"><img src="images/delay.png" alt="Linear Regression" width="800" height="400"></div>
+In Figure 1a, the left side features a pie chart showing the distribution of departure statuses, while the one on the right displays the distribution of various types of delays. Notably, approximately 17.3% of all flights experienced late departures (more than 15 minutes behind schedule). Furthermore, our observation reveals that the predominant causes of delays are late aircraft and carrier-related issues.
+<br/><br/>
+
+<h4>Figure 1b. Missing Values Across All Features (5 Years) </h4>
+Figure 1b highlights a missing values analysis of the raw OPTW dataset spanning 3 months, 1 year, 3 years, and 5 years. Among these periods, 110 features consistently exhibited over 50% missing or null values, primarily pertaining to weather-related variables with daily or monthly observations. Notably, hourly weather data is largely intact. The dataset combines weather events averaged to individual flight information, suggesting that an aggregation or join step may have converted many daily or monthly weather readings into null values. Given time constraints, we've opted to remove columns with over 50% null values to ensure downstream processing reliability. Variables with less than 50% missing values underwent imputation, detailed in the Modeling Pipelines section.
+<br/><br/>
+<div style="text-align:center;"><img src="images/missing_values.png" alt="Linear Regression" width="800" height="400"></div>
+
+<h4>Figure 2a.Top Features Determined by Random Forest (3-Year) </h4>
+Based on this EDA, along with the extensive analyses conducted by our team previously in Phase II, we considered potential points of data leakage and devised a methodical modeling pipeline to remove features that were uninformative or unlikely to add value to our models in an unbiased manner. As part of this more unbiased approach to final feature selection, we were able to identify the top features that affected our model based on feature importance scores generated from a random forest classifier (Figure 2a). This classifier was trained on the 3 year dataset, and to better understand why these features were select, we decided to perform additional EDA to explore these features more on the same 3 year data.
+<div style="text-align:center;"><img src="images/rf.png" alt="Airline" width="800" height="400"></div>
+<br/><br/>
+
+<h4>Figure 2b. Average Flight Delay Over Time (3-Year)</h4>
+In Figure 2b, we noted that both departure delays and arrival delays followed each other, with prominent spikes around the end of the years as well as more subtle season trends. These prominent spikes appeared to conincide with holiday travel.
+<div style="text-align:center;"><img src="images/trend.png" alt="Airline" width="800" height="400"></div>
+
+<h4>Figure 3a. Average Delay by Airline Carrier (3-Year)</h4>
+Figure 3a represents the average departure delay by airline carrier over 3 years. Each bar corresponds to a different carrier,with the length of the bar indicating the magnitude of the delay. The chart provides a comparative overview of delay durations across various carriers, with 'HA' carrier showing the least delay.
+<div style="text-align:center;"><img src="images/carrier.png" alt="Airline" width="800" height="400"></div>
+
+<h4>Figure 3b. Average Departure Delays By Wind Speeds (3 Years)</h4>
+Figure 3b depicts average flight departure delays across different times of day, categorized by wind speed intensity. Times of day include Afternoon, Early Morning, Evening, Morning, and Night, while wind speed categories range from "Light" to "Windy/Storm". The height of each bar indicates the average delay for that time and wind condition, with the color-coding corresponding to the wind speed category. The Wind speed categories are defined as "Light" for speeds up to 7 mph, "Moderate" for speeds over 7 to 18 mph, "Strong" for speeds over 18 to 31 mph, and "Windy/Storm" for speeds exceeding 31 mph.
+<div style="text-align:center;"><img src="images/wind_speed.png" alt="Airline" width="800" height="400"></div>
+
+</p>
+
+<h2> Data Leakage </h2>
+<p> In this time series project, preventing data leakage was a top priority. To avoid this, we excluded actual departure and arrival times, and any variables directly related to arrival from our analysis, focusing instead on scheduled times and other non-future-telling features. For example, we only used historical averages for features like carrier delay, ensuring they didn't include future data. Additionally, our feature selection was careful not to inadvertently introduce future information. Our data set was split linearly, respecting the chronological order for training, validation, and testing, rather than using a random split, to maintain the integrity of the time series. Cross-validation was also chronologically structured to prevent leakage and ensure robust training without compromising the future's unknowability in our models.
+</p>
+
+<h2> Modeling Pipeline </h2>
+<h4>Figure 5a. Modeling Pipeline</h4>
+<div style="text-align:center;"><img src="images/pipeline.png" alt="Airline" width="800" height="400"></div>
+<p>From our exploratory data analysis, data engineering, and data leakage analysis,
+we developed a final modeling pipeline through which the 5 years OTPW dataset was fed through for model experimentation. This pipeline (Figure 5a. above) is comprised of
+3 main components: data preprocessing, feature engineering, and model development.</p>
+
+<h2>Data Preprocessing </h2>
+<p>In initial data preprocessing, we began by eliminating features with more than 50% missing values, based on our missing values analysis. We excluded 110 features with more than 50% missing values. We also excluded 30 other variables that were duplicate information found in other columns and thus not additionally helpful in predicting our target variable, "DEP_DEL15" (binary variable of whether a flight delay was recorded). Because our target variable, DEP_DEL15, also had null values, potentially due to cancelled flights, we decided to not consider those flights as delays and remove any flights or rows where our target variable was null (removing 0.4% of rows in our dataset).</p>
+
+
+
 <p style="margin-bottom: 10px;">Based on a Pearson correlation analysis, we selected several covariates that show a significant relationship with the dependent variable, Revenue. Here's a concise overview of these covariates and their relevance:</p>
 <ul style="margin-top: 0;">
     <li>Vote Count: Reflects public engagement with the film.</li>
@@ -64,7 +106,7 @@ the dependent and all independent variables. Based on the correlation score, we 
 that affect the dependent variable (Revenue). The color shades are used to represent correlation, spanning
 from dark red to dark blue. In this scheme, dark shades of red (+1.0) indicate a strong positive correlation
 between variables, whereas dark shades of blue indicate a strong negative correlation (-1.0).</p>
-<div style="text-align:center;"><img src="images/corr_plot.png" alt="Linear Regression" width="500" height="400"></div>
+
 <p>Before running the regression model, we checked the multi-collinearity between all predictors by running a
 variation inflation factor to reduce unstable and unreliable estimates of the regression analysis. We observed
 there is no evidence of multi-collinearity between the predictor variables.</p>
@@ -74,7 +116,6 @@ In the second model, we gradually added covariates such as ‘Vote Count’ and 
 third model, we added more covariates such as Popularity, Movie Title Length, Release season, and Release
 Language.</p>
 <p>The displayed equation represents the linear regression model used in our analysis. In this model, β0 denotes the intercept, providing the starting point of the regression line. β1 is the coefficient that quantifies the influence of the budget on revenue. Additionally, Z signifies a vector containing other relevant variables chosen for the model, while γ represents their respective coefficients, indicating the weight of each covariate in the model.</p>
-<div style="text-align:center;"><img src="images/eqn.png" alt="Linear Regression" width="400" height="50"></div>
 
 <p>Additionally, we evaluated homoscedasticity to check if the variance of the errors or residuals in the model is constant across all the predictor variables using scale-location plot and Breusch Pagan test,
 but the results showed heteroscedastic behavior.Since our dataset is large, we continued to build our model with robust
