@@ -39,17 +39,34 @@
 </p>
 
 <h2>Data and Methodology</h2>
-<p>We utilized a real-world dataset courtesy of Health Verity and Gilead Sciences, enriched with third-party geo-demographic and toxicology data from NASA/Columbia University. Spanning from 2015 to 2018, the dataset encompasses demographics, diagnosis and treatment options, and insurance information for patients diagnosed with breast cancer. This data amalgamation aims to shed light on the socioeconomic factors potentially influencing health equity, offering participants a comprehensive basis for analysis.Here is the link to the dataset <a href="https://www.kaggle.com/competitions/widsdatathon2024-challenge1/data">
+<p>We utilized a real-world dataset courtesy of Health Verity and Gilead Sciences, enriched with third-party geo-demographic and toxicology data from NASA/Columbia University. Spanning from 2015 to 2018, the dataset encompasses demographics, diagnosis and treatment options, and insurance information for patients diagnosed with breast cancer. This data amalgamation aims to shed light on the socioeconomic factors potentially influencing health equity, offering participants a comprehensive basis for analysis.Here is the link to the dataset <a href="https://www.kaggle.com/competitions/widsdatathon2024-challenge1/data">. The dataset provided a rich canvas for analysis, featuring:
+  <ul>
+        <li>
+            <strong>Patient Demographics:</strong> Key information on the background of the patients, including age, gender, and ethnicity.
+        </li>
+        <li>
+            <strong>Diagnosis and Treatment Options:</strong> Detailed records of diagnosis dates, types of breast cancer, and the treatments administered.
+        </li>
+        <li>
+            <strong>Insurance Information:</strong> Insights into the insurance coverage of patients, offering a glimpse into potential barriers to access.
+        </li>
+        <li>
+            <strong>Geo-Demographic and Toxicology Data:</strong> An enrichment of the dataset with socio-economic factors and environmental hazards at the zip code level, aiming to correlate these aspects with health outcomes.
+        </li>
+    </ul>
+The  Datathon employed a dataset comprising approximately 39,000 records divided into training and testing sets. This dataset encapsulates individual records of patients, detailing their demographics (age, race, BMI, zip code), medical diagnosis and treatments related to breast cancer (including diagnosis codes for breast and metastatic cancers, treatment details), and socio-economic indicators at the zip-code level (such as income, education, housing costs, racial composition, and poverty rates). Additionally, it incorporates environmental metrics like Ozone, PM2.5, and NO2 levels, linking health outcomes to air quality conditions. Each data entry represents a unique patient and her specific Diagnosis Period. The primary objective of this analysis is to determine the predictability of a patient's Diagnosis Period being under 90 days, based on these comprehensive patient characteristics and environmental data.
+<p>
 
 <h2>Feature Engineering</h2>
-<p>In our project, we meticulously explored and utilized a diverse array of features to enhance the accuracy of our flight delay predictions. The dataset incorporates a wide range of variables, from basic temporal and airline information, such as quarter, day of the month, day of the week, and unique carrier codes, to more complex metrics like departure and arrival times, distance, and whether a flight was cancelled or diverted. We also integrated detailed weather conditions, including hourly altimeter settings, dew point temperatures, precipitation levels, and wind speeds, to account for the impact of weather on flight delays. Beyond these raw features, our team engaged in extensive feature engineering to derive additional predictors. This included indicators for holidays and weekends, segmentation of the day into departure and arrival blocks, and the incorporation of previous flight delays. We also introduced variables reflecting the number of flights per day at both the origin and destination airports, average carrier delay, and sky conditions, such as cloud coverage. These features were carefully selected based on their potential influence on flight delays, leveraging both our domain expertise and insights gained from exploratory data analysis. Through this comprehensive approach, we aimed to construct a robust model capable of accurately forecasting flight delays, taking into account a wide spectrum of factors from logistical to environmental.All derived features can be found in the table below.
+<p>In our project, we meticulously explored and utilized a diverse array of features to enhance the accuracy of our cancer screening prediction. In our project, we conducted extensive exploratory data analysis (EDA) to deeply understand the relationships and patterns within our dataset, particularly focusing on features critical to predicting the timely diagnosis of metastatic cancer. This comprehensive analysis covered a vast array of variables, including patient age,
+  patient race, patient's body mass index (BMI), zip code level soci-economic data and environmental air quality data. The exploration of these features, among others, allowed us to uncover significant insights and trends, guiding the development of our predictive models.
 </p>
 <div style="text-align:center;"><img src="images/derived.png" alt="Linear Regression" width="800" height="400"></div>
 
 <h2>Exploratory Data Analysis</h2>
 <p>Our team conducted extensive exploratory Data analysis (EDA) on datasets covering different durations: 3 months, 1 year, 2 years, and 5 years.
 <h4>Figure 1a. Departure Status (left) and Type of Delayed Flights (5-Year)</h4>
-<div style="text-align:center;"><img src="images/delay.png" alt="Linear Regression" width="800" height="400"></div>
+<div style="text-align:center;"><img src="images/age_distribution.png" alt="Linear Regression" width="800" height="400"></div>
 In Figure 1a, the left side features a pie chart showing the distribution of departure statuses, while the one on the right displays the distribution of various types of delays. Notably, approximately 17.3% of all flights experienced late departures (more than 15 minutes behind schedule). Furthermore, our observation reveals that the predominant causes of delays are late aircraft and carrier-related issues.
 <br/><br/>
 
