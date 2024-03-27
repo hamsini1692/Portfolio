@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Hyperspace by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Data Frontier</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="generic/" class="active">Report</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Early Detection of Metastatic Cancer: Predictive Analytics within 90 Days of Screening</h1>
+							<h3 class="tech-stack">Technologies Used: Python | Tensorflow | Machine Learning | Deep Learning </h3>
+							<h2>Introduction</h2>
+			<p>This report documents my participation in the WiDS Worldwide datathon, aimed at tackling healthcare inequity through the lens of breast cancer treatment and diagnosis. Sponsored by Gilead Sciences and leveraging a rich dataset from Health Verity enriched with geo-demographic and toxicology data, the challenge focused on predicting metastatic cancer diagnosis within 90 days of screening. My approach integrated advanced data science techniques, including machine learning models and exploratory data analysis, to uncover disparities in healthcare access and their impact on timely treatment. The urgency of this datathon is underscored by the focus on metastatic Triple-Negative Breast Cancer (TNBC), a highly aggressive form of cancer that necessitates swift, effective treatment. The disparity in treatment wait times serves as an indicator of broader inequities in healthcare access. Thus, the datathon's dual objectives emerged: to explore the relationship between patient demographics and the timeliness of treatment, and to assess the impact of environmental hazards on diagnosis and treatment efficacy.
+
+</p>
+
+<h2>Data and Methodology</h2>
+<p>We utilized a real-world dataset courtesy of Health Verity and Gilead Sciences, enriched with third-party geo-demographic and toxicology data from NASA/Columbia University. Spanning from 2015 to 2018, the dataset encompasses demographics, diagnosis and treatment options, and insurance information for patients diagnosed with breast cancer. This data amalgamation aims to shed light on the socioeconomic factors potentially influencing health equity, offering participants a comprehensive basis for analysis.Here is the link to the dataset <a href="https://www.kaggle.com/competitions/widsdatathon2024-challenge1/data">
+
+<h2>Feature Engineering</h2>
+<p>In our project, we meticulously explored and utilized a diverse array of features to enhance the accuracy of our flight delay predictions. The dataset incorporates a wide range of variables, from basic temporal and airline information, such as quarter, day of the month, day of the week, and unique carrier codes, to more complex metrics like departure and arrival times, distance, and whether a flight was cancelled or diverted. We also integrated detailed weather conditions, including hourly altimeter settings, dew point temperatures, precipitation levels, and wind speeds, to account for the impact of weather on flight delays. Beyond these raw features, our team engaged in extensive feature engineering to derive additional predictors. This included indicators for holidays and weekends, segmentation of the day into departure and arrival blocks, and the incorporation of previous flight delays. We also introduced variables reflecting the number of flights per day at both the origin and destination airports, average carrier delay, and sky conditions, such as cloud coverage. These features were carefully selected based on their potential influence on flight delays, leveraging both our domain expertise and insights gained from exploratory data analysis. Through this comprehensive approach, we aimed to construct a robust model capable of accurately forecasting flight delays, taking into account a wide spectrum of factors from logistical to environmental.All derived features can be found in the table below.
+</p>
+<div style="text-align:center;"><img src="images/derived.png" alt="Linear Regression" width="800" height="400"></div>
+
+<h2>Exploratory Data Analysis</h2>
+<p>Our team conducted extensive exploratory Data analysis (EDA) on datasets covering different durations: 3 months, 1 year, 2 years, and 5 years.
+<h4>Figure 1a. Departure Status (left) and Type of Delayed Flights (5-Year)</h4>
+<div style="text-align:center;"><img src="images/delay.png" alt="Linear Regression" width="800" height="400"></div>
+In Figure 1a, the left side features a pie chart showing the distribution of departure statuses, while the one on the right displays the distribution of various types of delays. Notably, approximately 17.3% of all flights experienced late departures (more than 15 minutes behind schedule). Furthermore, our observation reveals that the predominant causes of delays are late aircraft and carrier-related issues.
+<br/><br/>
+
+<h4>Figure 1b. Missing Values Across All Features (5 Years) </h4>
+Figure 1b highlights a missing values analysis of the raw OPTW dataset spanning 3 months, 1 year, 3 years, and 5 years. Among these periods, 110 features consistently exhibited over 50% missing or null values, primarily pertaining to weather-related variables with daily or monthly observations. Notably, hourly weather data is largely intact. The dataset combines weather events averaged to individual flight information, suggesting that an aggregation or join step may have converted many daily or monthly weather readings into null values. Given time constraints, we've opted to remove columns with over 50% null values to ensure downstream processing reliability. Variables with less than 50% missing values underwent imputation, detailed in the Modeling Pipelines section.
+<br/><br/>
+<div style="text-align:center;"><img src="images/missing_values.png" alt="Linear Regression" width="800" height="400"></div>
+
+<h4>Figure 2a.Top Features Determined by Random Forest (3-Year) </h4>
+Based on this EDA, along with the extensive analyses conducted by our team previously in Phase II, we considered potential points of data leakage and devised a methodical modeling pipeline to remove features that were uninformative or unlikely to add value to our models in an unbiased manner. As part of this more unbiased approach to final feature selection, we were able to identify the top features that affected our model based on feature importance scores generated from a random forest classifier (Figure 2a). This classifier was trained on the 3 year dataset, and to better understand why these features were select, we decided to perform additional EDA to explore these features more on the same 3 year data.
+<div style="text-align:center;"><img src="images/rf.png" alt="Airline" width="800" height="400"></div>
+<br/><br/>
+
+<h4>Figure 2b. Average Flight Delay Over Time (3-Year)</h4>
+In Figure 2b, we noted that both departure delays and arrival delays followed each other, with prominent spikes around the end of the years as well as more subtle season trends. These prominent spikes appeared to conincide with holiday travel.
+<div style="text-align:center;"><img src="images/trend.png" alt="Airline" width="800" height="400"></div>
+
+<h4>Figure 3a. Average Delay by Airline Carrier (3-Year)</h4>
+Figure 3a represents the average departure delay by airline carrier over 3 years. Each bar corresponds to a different carrier,with the length of the bar indicating the magnitude of the delay. The chart provides a comparative overview of delay durations across various carriers, with 'HA' carrier showing the least delay.
+<div style="text-align:center;"><img src="images/carrier.png" alt="Airline" width="800" height="400"></div>
+
+<h4>Figure 3b. Average Departure Delays By Wind Speeds (3 Years)</h4>
+Figure 3b depicts average flight departure delays across different times of day, categorized by wind speed intensity. Times of day include Afternoon, Early Morning, Evening, Morning, and Night, while wind speed categories range from "Light" to "Windy/Storm". The height of each bar indicates the average delay for that time and wind condition, with the color-coding corresponding to the wind speed category. The Wind speed categories are defined as "Light" for speeds up to 7 mph, "Moderate" for speeds over 7 to 18 mph, "Strong" for speeds over 18 to 31 mph, and "Windy/Storm" for speeds exceeding 31 mph.
+<div style="text-align:center;"><img src="images/wind_speed.png" alt="Airline" width="800" height="400"></div>
+
+</p>
+
+<h2> Data Leakage </h2>
+<p> In this time series project, preventing data leakage was a top priority. To avoid this, we excluded actual departure and arrival times, and any variables directly related to arrival from our analysis, focusing instead on scheduled times and other non-future-telling features. For example, we only used historical averages for features like carrier delay, ensuring they didn't include future data. Additionally, our feature selection was careful not to inadvertently introduce future information. Our data set was split linearly, respecting the chronological order for training, validation, and testing, rather than using a random split, to maintain the integrity of the time series. Cross-validation was also chronologically structured to prevent leakage and ensure robust training without compromising the future's unknowability in our models.
+</p>
+
+<h2> Modeling Pipeline </h2>
+<h4>Figure 5a. Modeling Pipeline</h4>
+<div style="text-align:center;"><img src="images/pipeline.png" alt="Airline" width="800" height="400"></div>
+<p>From our exploratory data analysis, data engineering, and data leakage analysis,
+we developed a final modeling pipeline through which the 5 years OTPW dataset was fed through for model experimentation. This pipeline (Figure 5a. above) is comprised of
+3 main components: data preprocessing, feature engineering, and model development.</p>
+
+<h2>Data Preprocessing </h2>
+<p>In initial data preprocessing, we began by eliminating features with more than 50% missing values, based on our missing values analysis. We excluded 110 features with more than 50% missing values. We also excluded 30 other variables that were duplicate information found in other columns and thus not additionally helpful in predicting our target variable, "DEP_DEL15" (binary variable of whether a flight delay was recorded). Because our target variable, DEP_DEL15, also had null values, potentially due to cancelled flights, we decided to not consider those flights as delays and remove any flights or rows where our target variable was null (removing 0.4% of rows in our dataset).</p>
+
+
+
+<p style="margin-bottom: 10px;">Based on a Pearson correlation analysis, we selected several covariates that show a significant relationship with the dependent variable, Revenue. Here's a concise overview of these covariates and their relevance:</p>
+<ul style="margin-top: 0;">
+    <li>Vote Count: Reflects public engagement with the film.</li>
+    <li>Runtime: Influences the number of possible screenings and, by extension, profitability.</li>
+    <li>Popularity: A multifaceted metric gauging public and online presence.</li>
+    <li>Title Length: The brevity of a title may enhance its memorability and dissemination.</li>
+    <li>Release Season: Aligns movie releases with peak holiday periods for better turnout.</li>
+    <li>Release Language: Addresses the potential reach of a film based on the language of release.</li>
+</ul>
+<p>The plot below shows the “pearson” correlation between
+the dependent and all independent variables. Based on the correlation score, we chose the following covariates
+that affect the dependent variable (Revenue). The color shades are used to represent correlation, spanning
+from dark red to dark blue. In this scheme, dark shades of red (+1.0) indicate a strong positive correlation
+between variables, whereas dark shades of blue indicate a strong negative correlation (-1.0).</p>
+
+<p>Before running the regression model, we checked the multi-collinearity between all predictors by running a
+variation inflation factor to reduce unstable and unreliable estimates of the regression analysis. We observed
+there is no evidence of multi-collinearity between the predictor variables.</p>
+<p>We created three regression models on the 30% dataset to understand better to understand the factors
+contributing to the Revenue of a movie. The first model studied the correlation between budget and Revenue.
+In the second model, we gradually added covariates such as ‘Vote Count’ and ‘Run time’. Finally, in the
+third model, we added more covariates such as Popularity, Movie Title Length, Release season, and Release
+Language.</p>
+<p>The displayed equation represents the linear regression model used in our analysis. In this model, β0 denotes the intercept, providing the starting point of the regression line. β1 is the coefficient that quantifies the influence of the budget on revenue. Additionally, Z signifies a vector containing other relevant variables chosen for the model, while γ represents their respective coefficients, indicating the weight of each covariate in the model.</p>
+
+<p>Additionally, we evaluated homoscedasticity to check if the variance of the errors or residuals in the model is constant across all the predictor variables using scale-location plot and Breusch Pagan test,
+but the results showed heteroscedastic behavior.Since our dataset is large, we continued to build our model with robust
+standard errors to handle the heteroscedastic behavior. Below is the scale-location demonstrating heteroskedastic behavior.
+From below plot, we see that the red line on the plot is not horizontal and also the spread of the residuals is not equal at all the fitted values, highlighting evidences for Heteroscedasticity.
+
+<div style="text-align:center;"><img src="images/scale_loc.png" alt="Linear Regression" width="500" height="300">
+</div>
+lm(log_revenue ~ log_budget + vote_count + runtime + popularity +
+								log_title_length + release_date_cat + lang_cat)
+<br/> <br/>
+
+
+<p>We  also used Breusch-Pagan test to validate homoscedasticity. The null hypothesis(H0) of the Breusch- Pagan test is that the residuals are Homoscedastic.The alternate hypothesis(Ha) is that the residuals are heteroscedastic. If the p-value from the test is less than the chosen significance level (e.g., 0.05), we can reject the null hypothesis of homoscedasticity. From the bptest results, it is seen that the p-value (3.422e- 12) is less than 0.05 and we can reject the null hypothesis and conclude that there is strong evidence of heteroscedasticity in the linear regression model.</p>
+<div style="text-align:center;"><img src="images/bp_test.png" alt="Linear Regression" width="400" height="200">
+<br/>
+
+<h2 style="text-align: left;">Statistical Tests</h2>
+<h3 style="text-align: left;">T-Test</h2>
+<p style="text-align: left;">Below is the results of t-test highlighting the statistical significance of each and every predictor in the selected model. Since the model is of heteroscedastic, robust standard errors are used as an effective solution to handle it.
+</p>
+<div style="text-align:center;"><img src="images/t_test.png" alt="Linear Regression" width="400" height="200">
+
+<h3 style="text-align: left;">Anova Test</h2>
+<p style="text-align: left;">We conducted anova test to find out best fitting model. Below results of anova test of the three models shows that model 3 is fitting better than other two models as it has significant F-statistic value along with lower residual sum of squares, low residual degrees of freedom and low p-value.
+</p>
+<div style="text-align:center;"><img src="images/anova.png" alt="Linear Regression" width="400" height="200">
+
+<h3 style="text-align: left;">Wald Test</h2>
+<p style="text-align: left;">We conducted wald test to estimate the significant variables (whether the variables add any value to the model or not) from a set of predictors and found out that budget, vote count, popularity, runtime, movie title length, movie language category and movie release season from model 3 influences the revenue of the movie.
+</p>
+<div style="text-align:center;"><img src="images/wald.png" alt="Linear Regression" width="400" height="300">
+
+
+<h2 style="text-align: left;">Results</h2>
+<p>The image below illustrates the results derived from applying three distinct regression models to a subset, comprising 70% of the overall dataset.From the results, We  observe that model 3 has the highest adjusted R-squared value of 0.67, indicating
+that it is the best-fitting model out of the three. A<p>
+<div style="text-align:center;"><img src="images/results.png" alt="Linear Regression" width="600" height="500"></div>
+
+<p style="text-align: left;">The “Budget” variable has a strong positive relationship with revenue in all three models, with estimates
+ranging from 0.91 to 0.77. All covariates, including vote count, runtime, and release season, are statistically
+significant with p-values less than 0.05 (alpha level). The covariates vote count, runtime, and release season
+show more statistical significance than other covariates.</p>
+
+<p style="text-align: left;">To better understand the practical significance of the results, let’s consider a hypothetical use case with 180 minutes movie being produced with a million-dollar budget with a shorter title length of 10, the Model 3 shows that the Revenue of the movie could increase by 77.2%. Similarly, the model also shows that for every movie which is released in the English language, the revenue of the movie is expected to increase by approximately 15.6% keeping all the other covariates constant. Likewise, on average, the model predicts if a movie gets released during December/January, the revenue of the movie is expected to increase by 18.1%.<p>
+
+<p style="text-align: left;">These results emphasize that budget is a crucial factor in determining the Revenue of a movie. It also indicates that along with the budget, the other covariates are also having significance in determining the revenue of a movie. But considering the statistical significance of popularity, movie production firms should not spend more money in promotions. Having all these into considerations, we believe that Model 3 can assist movie production companies in making informed decisions about the various factors involved in the overall planning process, which is essential for the success of the movie.<p>
+
+
+<h2 style="text-align: left;">Limitations</h2>
+<p style="text-align: left;">The Dataset has a chance of introducing Sampling Bias as the data about the movies is self-reported on TMDB, which is a user-generated content platform.
+Thus, the dataset may represent some movies but the dataset cannot be representative of all movies that have been produced globally.
+The data may also be biased toward movies that are more popular than others.
+</p>
+
+<p style="text-align: left;">The I.I.D assumption becomes questionable after closely examining the movie dataset because two movies may share the same cast & crew, and production company and have identical release dates.
+We observed that the dataset has some omitted variables. For example, it does not mention any information about Motion Picture Association of America(MPAA) Ratings, which have the possibility of influencing the Revenue. Since MPAA rating are categorical, different MPAA ratings may generate different revenue. Here budget impacts the content of a movie which in-turn affects the rating of a movie, hence it is difficult to determine the direction of omitted variable bias accurately. Likewise, actors, a categorical variable, may influence both budget & Revenue of the movie where we may not be able to determine the direction of omitted variable bias.</p>
+
+<p style="text-align: left;">
+The dataset may not represent a true picture of the current movie industry/trends since it contains informa- tion on movies which has a release date before 2013. Moreover, there is no consideration of inflation when concluding the statistical analysis between covariates such as budget & Revenue. More inflation leads to more budget & revenue and the direction of the bias is away from zero.
+Also, in the model, we have an outcome variable, “Vote count” on the RHS. This variable can be an outcome of the predictor “Popularity”. The reason could be because of promotions, more people can engage with the movie, which could lead to an increase in the number of votes.</p>
+
+
+<h2 style="text-align: left;">Conclusion</h2>
+<p style="text-align: left;">This study estimated the economic value of movie production, specifically examining the relationship between movie budget and Revenue. We also found that several covariates, such as vote_count, runtime, popularity, title length, release season, and release language, have a significant impact on movie revenue. Additionally, we identified the holiday season and language as other important categorical factors that can impact the success of a movie. We hope that this line of work will provide filmmakers with accurate tools to plan their investments and optimize their production strategies, reducing uncertainty in the film industry. Future work may explore the correlation of Revenue with additional data like MPAA ratings, cast/crew information, and sequel information on previous releases for identifying the latest trends in the movie industry.
+</p>
+
+<h2 style="text-align: left;">Code & Insights</h2>
+<p style="text-align: left;">
+ <a href="https://hamsini1692.github.io/Real-Time-Prediction-of-Flight-Departure-Delays/slides/slides.pdf" target="_blank" style="color: Green; font-weight: bold;">Presentation</a> |
+ <a href="https://github.com/hamsini1692/Real-Time-Prediction-of-Flight-Departure-Delays/tree/gh-pages" target="_blank" style="color: Green; font-weight: bold;">GitHub</a> |
+ <a href="https://hamsini1692.github.io/Real-Time-Prediction-of-Flight-Departure-Delays/report/report.pdf" target="_blank" style="color: Green; font-weight: bold;">Report</a>
+</p>
+
+
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
