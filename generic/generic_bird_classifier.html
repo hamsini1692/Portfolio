@@ -31,28 +31,97 @@
 				<!-- Main -->
 					<section id="main" class="wrapper">
 						<div class="inner">
-							<h1 class="major">WRITE ABOUT BIRD CLASSIFIER</h1>
-							<h3 class="tech-stack">Technologies Used: R | Statistics | Regression | Causal Inference</h3>
+							<h1 class="major">Birdsong Audio Classification using Neural Networks and Machine Learning</h1>
+							<h3 class="tech-stack">Technologies Used: Python | TensorFlow | Scikit | Deep Learning | Machine Learning</h3>
 							<h2>Introduction</h2>
-			<p>The movie industry is a multi-billion dollar business, and the budget of a film has become a crucial factor
-in determining its success, particularly its Revenue.One of the drawbacks of existing research in predicting movie revenue is the difficulty in accurately capturing
-the impact of other complex factors that influence a movie’s success apart from budget. </p>
-<h2>Objective</h2>
-<p>The goal of the project is to explore the factors affecting movie revenue, beyond just the budget, to help filmmakers optimize their marketing and production strategies. Utilizing a comprehensive dataset and regression models, the study aims to provide insights and recommendations by analyzing various influencing factors. This approach seeks to overcome limitations in existing research and offer more accurate predictions for movie success, contributing to strategic planning in the film industry.</p>
+			<p>The project's primary goal was to develop a bird species classifier capable of accurately identifying species from audio recordings. The challenge was to navigate the complexities of processing and analyzing short, individual bird call recordings against a backdrop of significant class imbalance and
+				varying audio quality.</p>
+
 <h2>Data and Methodology</h2>
-<p>We gathered the dataset from <a href="https://www.kaggle.com/datasets/akshaypawar7/millions-of-movies">Kaggle</a>. The dataset comprises metadata of more than 700,000 movies listed in
-the TMDB Dataset. It has 722986 rows and 20 columns representing various factors influencing the movie’s
-success. We performed exploratory studies and model building on a 30% subsample of the data. The remaining 70%,
-totaling 9832 rows, is used for testing the model and evaluating the results in this report.</p>
-<p>To meet the large sample assumptions, we evaluated the assumptions of Independence and Identical Distribution (I.I.D) and
-	Unique Best Linear Predictor (BLP). From the exploratory data analysis, although the budget and revenue distribution was roughly identical, we observed that our dataset is not strictly I.I.D
-	(further discussed in the Limitations section), and it does not have finite variance from the histogram plots, eventually violating the unique BLP assumption. We performed a log transformation of the predictor variables
-	(budget and title length) to overcome this.<div style="text-align:center;"><img src="images/hist.png" alt="Linear Regression" width="500" height="400"></div> Because each movie is not subjected to multiple samplings, the dataset is regarded as cross-sectional. We cleaned data by ignoring the rows with missing values in all dependent and independent variables. From
-the exploratory plots, we observed few outliers for budget, and we are considering the movies with a budget
-greater than $999 and excluding movies with a budget greater than $799 million. After filtering the data,
-we are left with a sample size of 9832 observations.We operationalized the variables Budget(X) and
-Revenue(Y) in terms of amount (in dollars, $). The image below shows a plot of Revenue as a function of budget,depicting a linear relationship between the two variables.</p>
-<div style="text-align:center;"><img src="images/lr.png" alt="Linear Regression" width="500" height="400"></div>
+<p>We gathered the Bird clef 2023 dataset from <a href="https://www.kaggle.com/competitions/birdclef-2023/data">Kaggle</a>
+The BirdCLEF 2023 dataset consisted of 16,941 audio recordings from xenocanto.org, encompassing 264 different bird species. The dataset featured primary attributes such as short recordings and identified bird species, along with secondary features including call type, location, and quality rating.In an effort to focus the project and address computing limitations, we refined our initial dataset of 10 bird species to three: Western Yellow Wagtail, Common Sandpiper, and Barn Swallow. These species were randomly selected from three different families to ensure diversity. To mitigate class imbalance, we down-sampled over-represented species at random, ensuring each species had approximately the same total duration of recordings, about 171-172 minutes. For our train/validation split, we adopted a strategy of random selection until the total training duration constituted 70% of the total duration for each species, with the remainder allocated to validation. This approach ensured a balanced representation of each species in both training and validation sets.</p>
+
+<h2>Exploratory Data Analysis</h2>
+<p> The below visualization  presents four different audio analysis plots for a Thrush Nightingale's song, including the sound wave, Root Mean Square (RMS) energy, Mel Spectrogram,
+	and Mel-Frequency Cepstral Coefficients (MFCC), each providing a unique perspective on the audio characteristics.</p>
+<div style="text-align:center;"><img src="images/audio_features.png" alt="audio" width="500" height="400"></div>
+
+<p> The below hierarchical plot  showcases the "Top 10 Bird Species - Taxonomy," displaying vivid photographs of each bird along with their scientific classifications, offering a colorful and educational snapshot of avian diversity.</p>
+<div style="text-align:center;"><img src="images/map.png" alt="audio" width="500" height="400"></div>
+
+<p>The above map depicts a global distribution of various bird species, indicated by colored dots across continents, highlighting the geographical spread and habitats of the birds included in the study.</p>
+<div style="text-align:center;"><img src="images/bird_map.png" alt="audio" width="500" height="400"></div>
+
+<h2>Feature Extraction</h2>
+<p>The project utilized advanced audio processing techniques to extract meaningful features from the recordings:</p>
+	<ul style="margin-top: 0;">
+		<li> Melspectrogram & MFCC: These visualizations capture the distribution of audio frequencies, transformed into the mel scale to align with human sound perception.</li>
+		<li>Chroma:This feature summarizes the 12 different pitch classes, offering insights into the harmonic content of bird calls.</li>
+		<li>RMS Energy:A measure of the signal's magnitude or "loudness" over time.</li>
+		<li>Spectral Centroid:Represents the "center of mass" of the spectrum, indicating the brightness of the sound. For testing, the models processed audio clips of 8 seconds in length, with a 4-second overlap to ensure continuity and maximize the use of the audio data. The same preprocessing techniques applied during training were used to prepare approximately 3,000 test samples, representing 35% of the total samples. Normalization of features for testing was based on scalers derived from the training data to maintain consistency and accuracy in model evaluation.</li>
+	</ul>
+
+
+ <h2>Modeling Pipeline</h2>
+ <p>A range of machine learning models was evaluated:</p>
+ <ul style="margin-top: 0;">
+	 <li>Baseline Models: Random guessing provided a baseline accuracy of 33%.</li>
+	 <li>Traditional Algorithms: Included Random Forest, XGBoost, SVM, and Logistic Regression.</li>
+	 <li>Deep Learning Models: Encompassed 1D CNN, 2D CNN, LSTM, GRU RNN, and Vision Transformers, with architectures tailored for audio classification.</li>
+ </ul>
+
+
+ <h2>Architecture Details </h2>
+ <p>For deep learning models, architectures were specifically designed to process and learn from the complex features of audio data. For example, the 1D CNN model utilized concatenated audio features and embeddings, while the Vision Transformer applied augmented STFT spectrograms for classification.
+ </p>
+
+<h3>One Dimensonal Convolution Neural Network (1DCNN)</h3>
+ <div style="text-align:center;"><img src="images/transformer.png" alt="audio" width="500" height="400"></div>
+
+<p> The design of the 1D CNN model employed a functional API architecture, facilitating a seamless flow of data through the network layers. The architecture included:</p>
+	<ul style="margin-top: 0;">
+		<li>Input Layer: Combined normalized, transposed audio features with 2D learned embeddings of continents, tiled along the time axis to match the audio features' shape.</li>
+		<li>Convolutional Layers: Two convolutional layers (Cov1D) were utilized, each followed by a MaxPooling layer to reduce dimensionality and capture the most salient features.</li>
+		<li>Regularization: L2 regularization was applied to convolutional layers to mitigate overfitting, complemented by a 50% dropout rate before the final output layer to further enhance generalization.</li>
+		<li>Optimization and Training: The Adam optimizer was selected for its efficiency in handling sparse gradients and adaptive learning rate capabilities. A callback mechanism was implemented to restore the model's best weights achieved at the 30th epoch, optimizing the training process.</li>
+</ul>
+
+<h3>Gated Recurrent Neural Network (GRU RNN)</h3>
+  <p>Employing a functional API architecture allowed for a flexible and modular design approach. The architecture centered around a GRU layer with 256 units, capitalizing on the GRU's capacity for capturing temporal dependencies and sequence dynamics efficiently. To combat overfitting, the model integrated three dropout layers at critical junctures, alongside dense layers activated by ReLU, with unit counts of 128, 64, and 48. This structure was aimed at progressively refining the feature representation for accurate classification. For the final output, a softmax activation
+function was utilized to facilitate multi-class classification, ensuring the model's output could be interpreted as probabilities across the different bird species.
+</p>
+<div style="text-align:center;"><img src="images/GRU.png" alt="audio" width="500" height="400"></div>
+
+
+<h3>Vision transformer</h3>
+<ul style="margin-top: 0;">
+	<li>Input Spectrogram: The input to the model is an augmented STFT spectrogram, which is a visual representation of the spectrum of frequencies in the audio signal as they vary with time. This spectrogram is divided into patches (each patch could be a small time-frequency area), which are then flattened and linearly projected into a sequence of vectors (tokens). Positional embeddings are added to maintain the order of the sequence.
+</li>
+	<li>Transformer Blocks: The core of the ViT architecture consists of multiple Transformer blocks that process the sequence of tokens. Each block includes:</li>
+	<li>Layer Normalization (Norm):  Stabilizes the learning process by normalizing the input layer.</li>
+	<li>Multi-Head Self-Attention: Allows the model to weigh the importance of different parts of the input data differently. With multiple 'heads', the model can focus on different positions of the input sequence, capturing various aspects of the data.</li>
+	<li>Dense Layers with GELU Activation: These fully connected layers further process the information, with the GELU (Gaussian Error Linear Unit) providing a non-linear activation function.</li>
+	<li>Dropout: Used between dense layers to prevent overfitting by randomly setting a portion of the input units to 0 during training.</li>
+	<li>Classifier Head: At the end of the Transformer blocks, the sequence of processed tokens is passed through additional layer normalization and dropout. The final 'classification token' (sometimes initialized and learned separately from the patch embeddings) is used to aggregate the information from the entire sequence and make a classification decision.</li>
+	<li>Output Layer: The last dense layer has as many units as there are classes to predict (in this case, 3 for the bird species). It uses a softmax activation function to output a probability distribution over the classes.</li>
+</ul>
+<div style="text-align:center;"><img src="images/transformer.png" alt="audio" width="500" height="400"></div>
+
+<h3>Results and Evaluation </h3>
+<p>The project made significant progress from the baseline, with deep learning models showing superior performance:</p>
+<li>1D CNN demonstrated an overall accuracy of 89%, with F1-scores ranging from 0.88 to 0.91 for specific bird species.</li>
+<div style="text-align:center;"><img src="images/cnn_results.png" alt="audio" width="500" height="400"></div>
+
+<li>GRU RNN achieved an overall accuracy of 87%, highlighting the effectiveness of RNN architectures in handling audio data.</li>
+<div style="text-align:center;"><img src="images/gru_results.png" alt="audio" width="500" height="400"></div>
+
+<li>Vision Transformer stood out with an overall accuracy of 94%, showcasing the advanced capability of transformer models in audio classification.</li>
+<div style="text-align:center;"><img src="images/trans_results.png" alt="audio" width="500" height="400"></div>
+
+
+
+
+
 <p style="margin-bottom: 10px;">Based on a Pearson correlation analysis, we selected several covariates that show a significant relationship with the dependent variable, Revenue. Here's a concise overview of these covariates and their relevance:</p>
 <ul style="margin-top: 0;">
     <li>Vote Count: Reflects public engagement with the film.</li>
