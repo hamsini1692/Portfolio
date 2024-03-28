@@ -76,8 +76,6 @@ The BirdCLEF 2023 dataset consisted of 16,941 audio recordings from xenocanto.or
  </p>
 
 <h3>One Dimensonal Convolution Neural Network (1DCNN)</h3>
- <div style="text-align:center;"><img src="images/cnn.png" alt="audio" width="500" height="400"></div>
-
 <p> The design of the 1D CNN model employed a functional API architecture, facilitating a seamless flow of data through the network layers. The architecture included:</p>
 	<ul style="margin-top: 0;">
 		<li>Input Layer: Combined normalized, transposed audio features with 2D learned embeddings of continents, tiled along the time axis to match the audio features' shape.</li>
@@ -85,6 +83,8 @@ The BirdCLEF 2023 dataset consisted of 16,941 audio recordings from xenocanto.or
 		<li>Regularization: L2 regularization was applied to convolutional layers to mitigate overfitting, complemented by a 50% dropout rate before the final output layer to further enhance generalization.</li>
 		<li>Optimization and Training: The Adam optimizer was selected for its efficiency in handling sparse gradients and adaptive learning rate capabilities. A callback mechanism was implemented to restore the model's best weights achieved at the 30th epoch, optimizing the training process.</li>
 </ul>
+<div style="text-align:center;"><img src="images/cnn.png" alt="audio" width="500" height="400"></div>
+
 
 <h3>Gated Recurrent Neural Network (GRU RNN)</h3>
   <p>Employing a functional API architecture allowed for a flexible and modular design approach. The architecture centered around a GRU layer with 256 units, capitalizing on the GRU's capacity for capturing temporal dependencies and sequence dynamics efficiently. To combat overfitting, the model integrated three dropout layers at critical junctures, alongside dense layers activated by ReLU, with unit counts of 128, 64, and 48. This structure was aimed at progressively refining the feature representation for accurate classification. For the final output, a softmax activation
